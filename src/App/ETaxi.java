@@ -4,10 +4,15 @@ public class ETaxi {
     static int result, iesireapp, optiune;
     static String username, password;
     static void inregistrare(){
-        SignUp inreg = new SignUp();
-        int optiune = inreg.getResult();
-        if (optiune == 1)
-            conectare();
+        boolean status;
+        do{
+            SignUp inreg = new SignUp();
+            int optiune = inreg.getResult();
+            status = inreg.Pas2();
+            if (optiune == 1)
+                conectare();
+        } while (status == false && optiune == 0);
+        conectare();
     }
     static void conectare(){
         boolean status;
@@ -36,19 +41,12 @@ public class ETaxi {
     public static void main (String[] args){
         conectare();
         switch(optiune){
-            case 0 -> {
-                Autoturisme auto = new Autoturisme();
-            }
-            case 1 -> {
-                Curse curse = new Curse();
-            }
-            case 2 -> {
-                Polite polite = new Polite();
-            }
-            case 3 -> {
-                SchimbareParola schimbparola = new SchimbareParola();
-            }
-            case -1 -> System.exit(0);
+            case 0 -> {Autoturisme auto = new Autoturisme();}
+            case 1 -> {Curse curse = new Curse();}
+            case 2 -> {Polite polite = new Polite();}
+            case 3 -> {SchimbareParola schimbparola = new SchimbareParola();}
+            case -1 -> {System.exit(0);}
+            case 4 -> {System.exit(0);}
         }
     }
 }

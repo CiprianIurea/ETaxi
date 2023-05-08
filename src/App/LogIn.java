@@ -3,14 +3,12 @@ import javax.swing.*;
 public class LogIn {
     private JTextField username = new JTextField();
     private JTextField password = new JTextField();
-    private JFrame f;
     private String user, pass;
     private int result, iesireapp;
     LogIn(){
-        f = new JFrame();
         Object[] options = {"Conectare", "Inregistrare"};
         Object[] labels = {"Nume utilizator: ", username, "Parola: ", password};
-        result = JOptionPane.showOptionDialog(f, labels, "ETaxi", 0, 3, null, options, options[1]);
+        result = JOptionPane.showOptionDialog(null, labels, "ETaxi", 0, 3, null, options, options[1]);
     }
     public boolean credentiale(int option){
         user = username.getText();
