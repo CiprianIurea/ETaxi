@@ -1,15 +1,8 @@
 package App;
 import javax.swing.*;
 public class ETaxi {
-    static JTextField username = new JTextField();
-    static JTextField password = new JTextField();
-    static int result;
-    ETaxi(){
-        JFrame frame = new JFrame();
-        Object[] options = {"Conectare", "Inregistrare"};
-        Object[] labels = {"Nume utilizator: ", username, "Parola: ", password};
-        result = JOptionPane.showOptionDialog(frame, labels, "ETaxi", 0, 3, null, options, options[1]);
-    }
+    static int result, iesireapp, optiune;
+    static String username, password;
     static void inregistrare(){
         SignUp inreg = new SignUp();
         int optiune = inreg.getResult();
@@ -19,28 +12,43 @@ public class ETaxi {
     static void conectare(){
         boolean status;
         do{
-            ETaxi app = new ETaxi();
-            String user = username.getText();
-            String pass = password.getText();
-            LogIn logare = new LogIn(user, pass);
+            LogIn logare = new LogIn();
+            result = logare.getResult();
+            iesireapp = logare.getIesireapp();
             status = logare.credentiale(result);
+            username = logare.getUsername();
+            password = logare.getPassword();
             if (result == 1)
                 inregistrare();
+            if (result == -1)
+                System.exit(0);
             if (status == false){
-                username.setText("");
-                password.setText("");
+                logare.setUsername("");
+                logare.setPassword("");
             }
         }while (status == false && result == 0);
+        PaginaFormulare();
     }
-    static int PaginaFormulare(){
-        JFrame f = new JFrame();
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    static void PaginaFormulare(){
         Object[] options = {"Inregistrare autoturism/e", "Inregistrare cursa", "Inregistrare polite", "Schimbare parola", "Iesire"};
-        result = JOptionPane.showOptionDialog(f, "Salutare " + username.getText() + "!", "Formulare", 0, 3, null, options, options[options.length-1]);
-        return result;
+        optiune = JOptionPane.showOptionDialog(null, "Salutare " + username + "!", "Formulare", 0, 3, null, options, options[options.length-1]);
     }
     public static void main (String[] args){
         conectare();
-        PaginaFormulare();
+        switch(optiune){
+            case 0 -> {
+                Autoturisme auto = new Autoturisme();
+            }
+            case 1 -> {
+                Curse curse = new Curse();
+            }
+            case 2 -> {
+                Polite polite = new Polite();
+            }
+            case 3 -> {
+                SchimbareParola schimbparola = new SchimbareParola();
+            }
+            case -1 -> System.exit(0);
+        }
     }
 }
