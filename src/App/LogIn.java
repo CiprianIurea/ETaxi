@@ -1,46 +1,58 @@
 package App;
 import javax.swing.*;
-public class LogIn {
-    private JTextField username = new JTextField();
-    private JTextField password = new JTextField();
-    private String user, pass;
-    private int result, iesireapp;
+import java.awt.*;
+import java.awt.event.*;
+public class LogIn extends JFrame{
+    private JLabel l1, l2;
+    private JTextField username;
+    private JPasswordField password;
+    private JButton login, signin;
     LogIn(){
-        Object[] options = {"Conectare", "Inregistrare"};
-        Object[] labels = {"Nume utilizator: ", username, "Parola: ", password};
-        result = JOptionPane.showOptionDialog(null, labels, "ETaxi", 0, 3, null, options, options[1]);
-    }
-    public boolean credentiale(int option){
-        user = username.getText();
-        pass = password.getText();
-        if (option == 0){
-            if (!user.equals("admin") && !pass.equals("admin") ){
-                if (user.isBlank()&& pass.isBlank()){
-                    JOptionPane.showMessageDialog(null, "Nu ati introdus toate credentialele.");
-                    return false;
+        super("E-Taxi");
+        GridBagConstraints gbc = new GridBagConstraints();
+        l1 = new JLabel("Nume utilizator");
+        l2 = new JLabel("Parola");
+        username = new JTextField(20);
+        password = new JPasswordField(20);
+        login = new JButton("Conectare");
+        signin = new JButton("Inregistrare");
+        login.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!username.getText().equals("admin") && !password.getPassword().equals("admin")){
+                    JOptionPane.showMessageDialog(null, "Nume de utilizator sau parola incorecte.");
+                    username.setText("");
+                    password.setText("");
                 }
-                JOptionPane.showMessageDialog(null, "Nume de utilizator sau parola incorecte. Incearca din nou");
-                return false;
-            }   
-        }
-        return true;
-    }
-    public int getResult(){
-        return result;
-    }
-    public int getIesireapp(){
-        return iesireapp;
-    }
-    public String getUsername(){
-        return user;
-    }
-    public String getPassword(){
-        return pass;
-    }
-    public void setUsername(String utilizator){
-        username.setText(utilizator);
-    }
-    public void setPassword(String parola){
-        password.setText(parola);
+            }
+        });
+        signin.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                SignUp inregistrare = new SignUp();
+            }
+            
+        });
+        JPanel panel = new JPanel(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(l1, gbc);
+        gbc.gridx++;
+        panel.add(username, gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        panel.add(l2, gbc);
+        gbc.gridx++;
+        panel.add(password, gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.insets = new Insets(20, 5, 0, 5);
+        panel.add(login, gbc);
+        gbc.gridx++;
+        panel.add(signin, gbc);
+        this.add(panel, BorderLayout.CENTER);
     }
 }
