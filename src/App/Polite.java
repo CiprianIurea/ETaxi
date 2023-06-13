@@ -1,4 +1,83 @@
 package App;
-public class Polite {
-    
+import javax.swing.*;
+import java.util.*;
+public class Polite extends JFrame{
+    private JLabel tippolita, valabildela, valabilpanala, auto;
+    private JComboBox cb;
+    private String[] tip = {"None", "RCA", "CASCO"};
+    private JButton save;
+    private JComboBox zi1, zi2, luna1, luna2, an1, an2, cbautoturisme;
+    private String[] zi, luna, an;
+    Polite(){
+        setTitle("Adaugare polita de asigurare");
+        setSize(500, 300);
+        setLayout(null);
+        int pozX = 25;
+        int pozY = 25;
+        auto = new JLabel("Autoturism: ");
+        auto.setBounds(pozX, pozY, 100, 25);
+        add(auto);
+        pozX+=100;
+        cbautoturisme = new JComboBox();
+        cbautoturisme.setBounds(pozX, pozY, 150, 25);
+        add(cbautoturisme);
+        pozY+=40;
+        pozX = 25;
+        tippolita = new JLabel("Tip polita: ");
+        tippolita.setBounds(pozX, pozY, 100, 25);
+        add(tippolita);
+        pozX+=100;
+        cb = new JComboBox(tip);
+        cb.setBounds(pozX, pozY, 100, 25);
+        add(cb);
+        pozX = 25;
+        pozY+= 50;
+        valabildela = new JLabel("Valabil de la: ");
+        valabildela.setBounds(pozX, pozY, 100, 25);
+        add(valabildela);
+        zi = new String[32];
+        zi[0] = "Zi";
+        for (int i = 1; i <= 31; i++){
+            zi[i] = String.valueOf(i);
+        }
+        pozX+=100;
+        zi1 = new JComboBox(zi);
+        zi1.setBounds(pozX, pozY, 75, 25);
+        add(zi1);
+        luna = new String[] {"Luna", "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+                             "Iulie", "August", "Septembrie", "Octombrie", "Decembrie"};
+        pozX+=75;
+        luna1 = new JComboBox(luna);
+        luna1.setBounds(pozX, pozY, 100, 25);
+        add(luna1);
+        Calendar data = Calendar.getInstance();
+        an = new String[] {"An", String.valueOf(data.get(Calendar.YEAR)), String.valueOf(data.get(Calendar.YEAR)-1), String.valueOf(data.get(Calendar.YEAR)+1)};
+        pozX+=100;
+        an1 = new JComboBox(an);
+        an1.setBounds(pozX, pozY, 75, 25);
+        add(an1);
+        pozX = 25;
+        pozY+=40;
+        valabilpanala = new JLabel("pana la: ");
+        valabilpanala.setBounds(pozX, pozY, 100, 25);
+        add(valabilpanala);
+        zi2 = new JComboBox(zi);
+        pozX+=100;
+        zi2.setBounds(pozX, pozY, 75, 25);
+        add(zi2);
+        pozX+=75;
+        luna2 = new JComboBox(luna);
+        luna2.setBounds(pozX, pozY, 100, 25);
+        add(luna2);
+        pozX+=100;
+        an2 = new JComboBox(an);
+        an2.setBounds(pozX, pozY, 75, 25);
+        add(an2);
+        pozY+=50;
+        pozX = 200;
+        save = new JButton("Salvare");
+        save.setBounds(pozX, pozY, 100, 50);
+        add(save);
+        setVisible(true);
+    }
 }

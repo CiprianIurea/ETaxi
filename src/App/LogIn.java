@@ -58,16 +58,17 @@ public class LogIn extends JFrame{
                                     password.setText("");
                                 }
                                 else{
-                                    JOptionPane.showMessageDialog(null, "V-ati inregistrat cu succes!");
                                     WelcomePage wp = new WelcomePage(username.getText());
                                     wp.setLocationRelativeTo(null);
                                     wp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                                     dispose();
                                 }
                             }
+                            br.close();
                         } catch (IOException ex) {
                             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
                     }
