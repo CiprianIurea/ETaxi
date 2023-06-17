@@ -46,6 +46,7 @@ public class SchimbareParola extends JFrame{
         save = new JButton("Salavare");
         save.setBounds(100, 125, 100, 50);
         save.addActionListener(cp);
+        save.setFocusable(false);
         add(save);
         setVisible(true);
     }
@@ -76,6 +77,18 @@ public class SchimbareParola extends JFrame{
                         newpass.setText("");
                         newpassconf.setText("");
                     }
+                    else if(new String(currentpass.getPassword()).equals(new String(newpass.getPassword()))){
+                        JOptionPane.showMessageDialog(null, "Parola noua nu poate coincide cu parola veche");
+                        currentpass.setText("");
+                        newpass.setText("");
+                        newpassconf.setText("");
+                    }
+                    else if (new String(newpass.getPassword()).equals(username)){
+                        JOptionPane.showMessageDialog(null, "Parola nu poate coincide cu numele de utilizator");
+                        currentpass.setText("");
+                        newpass.setText("");
+                        newpassconf.setText("");
+                    } 
                     else{
                         newfile = "tempc.txt";
                         File f = new File(p + "\\" + newfile);
@@ -88,9 +101,11 @@ public class SchimbareParola extends JFrame{
                                     pw.println(new String(newpass.getPassword()));
                                 }
                                 else if (line.equals(pass)){
-                                    br.readLine();
+                                    continue;
                                 }
-                                
+                                else{
+                                    pw.println(line);
+                                }
                             }
                         } catch (IOException ex){
                             Logger.getLogger(SchimbareParola.class.getName()).log(Level.SEVERE, null, ex);

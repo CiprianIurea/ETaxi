@@ -36,6 +36,8 @@ public class LogIn extends JFrame{
         password.setBounds(150, 100, 150, 25);
         login.setBounds(50, 150, 150, 50);
         signin.setBounds(200, 150, 150, 50);
+        login.setFocusable(false);
+        signin.setFocusable(false);
         add(l1); add(l2); add(username); add(password); add(login); add(signin);
         setVisible(true);
     }
@@ -49,22 +51,25 @@ public class LogIn extends JFrame{
                     try{
                         br = new BufferedReader(new FileReader(f));
                         try {
+                            String s = new String(password.getPassword());
                             while ((name = br.readLine())!= null){
-                                pass = br.readLine();
-                                String s = new String(password.getPassword());
-                                if (!username.getText().equals(name) || !s.equals(pass)){
-                                    JOptionPane.showMessageDialog(null, "Nume de utilizator sau parola incorecte.");
-                                    username.setText("");
-                                    password.setText("");
-                                }
-                                else{
-                                    WelcomePage wp = new WelcomePage(username.getText());
-                                    wp.setLocationRelativeTo(null);
-                                    wp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                                    dispose();
-                                }
+                                if (name.equals(username.getText()))
+                                    break;
+                                else br.readLine(); 
                             }
+                            pass = br.readLine();
                             br.close();
+                            if (username.getText().equals(name) && s.equals(pass)){
+                                WelcomePage wp = new WelcomePage(username.getText());
+                                wp.setLocationRelativeTo(null);
+                                wp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                                dispose();
+                            }
+                            else{
+                                username.setText("");
+                                password.setText("");
+                                JOptionPane.showMessageDialog(null, "Nume de utilizator sau parola incorecte.");
+                            }
                         } catch (IOException ex) {
                             Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
                         }

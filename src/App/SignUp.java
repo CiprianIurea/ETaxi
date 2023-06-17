@@ -2,6 +2,8 @@ package App;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +17,7 @@ public class SignUp extends JFrame{
     private JPasswordField password, conf_pass;
     private JButton inregistrare, anulare;
     private PrintWriter pw;
+    private BufferedReader br;
     SignUp(){
         setTitle("Inregistrare E-Taxi");
         setSize(400, 400);
@@ -37,7 +40,9 @@ public class SignUp extends JFrame{
         inregistrare.setBounds(50, 250, 150, 50);
         anulare.setBounds(200, 250, 150, 50);
         inregistrare.addActionListener(ab);
+        inregistrare.setFocusable(false);
         anulare.addActionListener(ab);
+        anulare.setFocusable(false);
         add(nume_utilizator);
         add(parola);
         add(confirmare_parola);
@@ -50,6 +55,7 @@ public class SignUp extends JFrame{
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == inregistrare){
+                boolean succes = true;
                 if (username.getText().equals("") && new String(password.getPassword()).equals("") && new String(conf_pass.getPassword()).equals("")){
                     JOptionPane.showMessageDialog(null, "Nu ati completat toate campurile");
                     username.setText("");
@@ -59,19 +65,43 @@ public class SignUp extends JFrame{
                 else if (!new String(password.getPassword()).equals(new String(conf_pass.getPassword()))){
                     JOptionPane.showMessageDialog(null, "Parolele nu corespund");
                 }
+                else if (username.getText().equals(new String(password.getPassword()))){
+                    JOptionPane.showMessageDialog(null, "Numele de utilizator si parola nu pot coincide!");
+                    username.setText("");
+                    password.setText("");
+                    conf_pass.setText("");
+                }
                 else{
                     try {
-                        pw = new PrintWriter(new FileWriter("credentiale.txt"));
+                        br = new BufferedReader(new FileReader("credentiale.txt"));
+                        String s;
+                        while ((s = br.readLine())!=null){
+                            if(s.equals(username.getText())){
+                                succes = false;
+                                JOptionPane.showMessageDialog(null, "Nume de utilizator indisponibil");
+                                username.setText("");
+                                password.setText("");
+                                conf_pass.setText("");
+                                break;
+                            }
+                            else
+                                br.readLine();
+                        }
+                        br.close();
+                        pw = new PrintWriter(new FileWriter("credentiale.txt", true));
                         pw.println(username.getText());
                         pw.println(new String(password.getPassword()));
                         pw.close();
                     } catch (IOException ex) {
                         Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    LogIn conectare = new LogIn();
-                    conectare.setLocationRelativeTo(null);
-                    conectare.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    dispose();
+                    if (succes){
+                        JOptionPane.showMessageDialog(null, "V-ati inregistrat cu succes!");
+                        LogIn conectare = new LogIn();
+                        conectare.setLocationRelativeTo(null);
+                        conectare.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        dispose();
+                    }
                 }
             }
             else if (e.getSource() == anulare){
